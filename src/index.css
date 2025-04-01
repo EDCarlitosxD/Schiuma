@@ -1,0 +1,30 @@
+@import "tailwindcss";
+@font-face {
+    font-family: "Simple Michael";
+    src: url("/src/assets/fonts/SimpleMichael.otf") format("opentype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+h1 {
+    font-family: "Simple Michael", sans-serif;
+    font-size: 72px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+*{
+    font-family: "Century Gothic";
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+button{
+    font-family: "Bricolage Grotesque";
+font-size: 26px;
+font-style: normal;
+font-weight: 300;
+line-height: normal;
+}
