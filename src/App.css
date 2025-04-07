@@ -1,0 +1,1014 @@
+
+.container-app {
+    margin: 0;
+    background-color: rgba(125, 126, 124, 0.1);
+    display: flex;
+    font-family: 'Bricolage Grotesque-Regular';
+}
+
+@font-face {
+    font-family: 'Simple Michael';
+    src: url('../fonts/SimpleMichael.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Bricolage Grotesque';
+    src: url('../fonts/BricolageGrotesque-ExtraBold.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Century Gothic';
+    src: url('../fonts/CenturyGothic.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Bricolage Grotesque-Regular';
+    src: url('../fonts/BricolageGrotesque-Regular.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Century Gothic-Bold';
+    src: url('../fonts/BricolageGrotesque-ExtraBold.woff') format('woff');
+}
+
+body {
+    margin: 0;
+    background-color: rgba(125, 126, 124, 0.1);
+    display: flex;
+    font-family: 'Bricolage Grotesque-Regular';
+}
+
+h1{
+    font-family: 'Simple Michael';
+    font-size: 72px;
+}
+
+h2 {
+    font-family: 'Bricolage Grotesque';
+    font-size: 40px;
+}
+
+h4{
+    font-family: 'Bricolage Grotesque-Regular';
+    font-size: 26px;
+}
+
+h5{
+    font-family: 'Century Gothic-Bold';
+    font-size: 21px; 
+}
+
+p{
+    font-family: 'Century Gothic';
+    font-size: 19px;
+}
+
+/* Sidebar  */
+.sidebar {
+    width: 360px;
+    height: 100vh;
+    background-color: #1E8A71;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    position: relative;
+    transition: width 0.3s ease;
+    
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.logo img {
+    margin-top: 24px;
+    width: 300px;
+    height: 190px;
+    margin-bottom: 136px;
+
+}
+
+.hamburger-menu {
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    z-index: 1000;
+    top: 24px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+}
+
+.hamburger-menu img {
+    width: 40px;
+    height: 40px;
+}
+
+.sidebar.collapsed {
+    width: 180px;
+}
+
+.sidebar.collapsed .logo img {
+    width: 150px;
+    
+    position: relative;
+    top: 50px;
+    height: auto;
+}
+
+.sidebar.collapsed nav ul li a {
+    flex-direction: column;
+    text-align: center;
+    font-size: 16px;
+}
+
+.sidebar.collapsed nav ul li a img {
+    margin-right: 0;
+    margin-bottom: 8px;
+}
+
+.sidebar.collapsed nav ul li a span {
+    display: block;
+}
+
+.section-content {
+    display: none;
+}
+
+.section-content.active {
+    display: block;
+}
+
+
+/* Estilos de la navegación */
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
+    margin-bottom: 16px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    padding: 10px;
+    border-radius: 16px;
+    transition: background 0.3s, color 0.3s;
+}
+
+/* Iconos */
+nav ul li a img {
+    width: 48px;
+    height: 48px;
+    margin-right: 16px;
+}
+
+.icon-hover {
+    display: none;
+}
+
+/* Hover: cambia color de fondo y muestra otro icono */
+nav ul li a:hover {
+    background: #FFFFFF;
+    color: #1E8A71;
+}
+
+nav ul li a:hover .icon-default {
+    display: none;
+}
+
+nav ul li a:hover .icon-hover {
+    display: inline-block;
+}
+
+nav ul li.active a {
+    background: #FFFFFF;
+    color: #1E8A71;
+}
+
+/* Asegura que solo se muestre el icono hover en el li activo */
+nav ul li.active a .icon-default {
+    display: none;
+}
+
+nav ul li.active a .icon-hover {
+    display: inline-block;
+}
+
+.content {
+    flex-grow: 1;
+    background-color: rgba(125, 126, 124, 0.1);
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    padding: 16px;
+    background: #e0e1e0bc;
+    border-radius: 8px;
+    position: relative;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+   
+}
+
+.title-container {
+    margin-left: 40px;
+}
+
+.notify-container {
+    margin-left: 701px;
+    
+}
+
+.notify-container img{
+    width: 56px;
+    height: 56px;
+    
+}
+
+.notify-container button{
+    background-color: #e0e1e0bc;
+    border: none;
+    
+}
+
+.search-bar h1 {
+    margin: 0;
+    padding: 0;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 24px;
+    background-color: white;
+    margin-left: 184px;
+    margin-right: 96px;
+    position: relative;
+    max-width: 888px;
+    box-sizing: border-box;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.search-container input {
+    border: none;
+    outline: none;
+    font-size: 24px;
+    margin-left: 32px;
+    width: 576px;
+    height: 24px; 
+}
+
+.search-container button {
+    background: #FF9D23;
+    border-radius: 24px;
+    border: none; 
+    cursor: pointer;
+    width: 88px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-container button img {
+    width: 40px;
+    height: 40px;
+}
+
+.notify-userprofile{
+    display: flex;
+    gap: 40px;
+}
+.notify-userprofile img{
+    width: 56px;
+    height: 56px;
+}
+
+.notify-userprofile button{
+    background-color: #e0e1e0bc;
+    border: none;
+}
+
+/* Sección de categorías */
+
+section {
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+section h2{
+    font-size: 40px;
+    color: #333;
+    margin-top: -10px;
+    font-family: 'Bricolage Grotesque';
+    margin-bottom: 16px;
+    margin-left: 40px;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Para que ocupe toda la pantalla */
+}
+
+#productos {
+    flex-grow: 1;
+    background-color: rgba(125, 126, 124, 0.1);
+    
+}
+
+#proveedores {
+    flex-grow: 1;
+    background-color: rgba(125, 126, 124, 0.1);
+}
+
+.category-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 48px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.category-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    background-color: #1E8A71;
+    color: white;
+    border: none;
+    border-radius: 16px;
+    width: 208px;
+    height: 64px;
+    font-size: 16px;
+    font-family:'Century Gothic'; 
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.category-item img {
+    width: 56px;
+    height: 48px;
+    margin-right: 8px;
+}
+
+.category-item:hover {
+    background-color: #CAE0BC;
+}
+
+/* Tabla */
+.inventario {
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: rgba(125, 126, 124, 0.01);
+}
+
+.inventario h2{
+    color: #333;
+    margin-top: -10px;
+    margin-bottom: 16px;
+    margin-left: 40px;
+}
+
+.inventario-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.inventario-botones {
+    display: flex;
+    gap: 12px;
+    margin-top: 78px;
+    margin-right: 48px;
+    
+}
+
+.inventario-botones button img {
+    width: 32px; 
+    height: 32px;
+    margin-right: 8px;
+}
+
+
+.btn-filtro, .btn-agregar, .btn-editar, .btn-eliminar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-filtro {
+    background-color: #FFFFFF;
+    color: #1E8A71;
+    width: 152px;
+    border: 3px solid #1E8A71;
+    
+    box-shadow: 0px 2px 5px rgba(20, 125, 106, 0.5);
+    height: 56px;
+    text-align: center;
+}
+
+.btn-filtro:hover {
+    background-color: #4adbb95f;
+    color: #FFFFFF; 
+}
+
+.btn-agregar {
+    background-color: #FF9D23;
+    color: white;
+    width: 296px;
+    height: 56px;
+}
+
+.btn-agregar:hover {
+    background-color: #FFFFFF;
+    color: #FF9D23; 
+    border: 3px solid #FF9D23;
+}
+
+.link-agregar {
+    text-decoration: none;
+}
+
+
+
+
+.tabla-inventario {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.tabla-inventario td {
+    width: 180px;
+    height: 112px;
+    text-align: center;
+    border: 1px solid #ddd;
+    background-color: #FFFFFF;
+    padding: 8px;
+}
+
+.tabla-inventario th {
+    background-color: #ff9c2377;
+    font-weight: bold;
+    
+    border: 3px solid #ff9c2322;
+}
+
+td.estado {
+    text-align: center;
+    width: 128px;
+    height: 96px;
+}
+
+.estado-activo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #D4EDDA;
+    color: #155724;
+    border-radius: 20px;
+    font-weight: bold;
+    padding: 8px 16px;
+    font-size: 16px;
+    width: 104px;
+    height: 22px;
+    border: 1px solid #155724;
+}
+
+.borde-izquierdo {
+    border-top-left-radius: 10px;
+}
+
+.borde-derecho {
+    border-top-right-radius: 10px;
+}
+
+.tabla-inventario td img {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.contenedor-acciones {
+    position: relative; /* Referencia para el menú */
+    width: 128px;
+    height: 96px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-acciones {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.btn-acciones img {
+    width: 32px;
+    height: 32px;
+}
+
+.opciones {
+    display: none; /* Lo oculto por defecto al cuadrito para esperar que se le de click */
+    position: absolute;
+    top: 60%; 
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+    gap: 16px; 
+    display: flex;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+}
+
+.contenedor-acciones {
+    position: relative;
+}
+
+.contenedor-acciones.active .opciones {
+    display: flex;
+    visibility: visible;
+    opacity: 1;
+}
+
+
+.opciones img {
+    width: 112px ;
+    height: 112px;
+    cursor: pointer;
+}
+
+/* Estilo del Pagination */
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    margin-top: 12px;
+    position: relative;
+    font-family: 'Century Gothic';
+}
+
+.page-number {
+    background: #f1f1f1;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.page-number:hover {
+    background: #e0e0e0;
+}
+
+.arrow {
+    font-size: 24px;
+    display: inline-block;
+    transform: rotate(90deg); /* Flecha hacia abajo */
+    transition: transform 0.3s;
+}
+
+/* Rotar flecha cuando se abre la lista */
+.page-number.active .arrow {
+    transform: rotate(270deg);
+    
+}
+
+/* Estilos para la lista desplegable */
+.page-list {
+    position: absolute;
+    top: 40px;
+    background: white;
+    list-style: none;
+    padding: 0;
+    border: 1px solid #ccc;
+    width: 80px;
+    border-radius: 4px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    display: none;
+}
+
+.page-list li {
+    padding: 8px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.page-list li:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Mostrar lista cuando se haga clic */
+.hidden {
+    display: none;
+}
+
+.visible {
+    display: block;
+}
+
+.main-section {
+    background-color: rgba(125, 126, 124, 0.1);
+}
+
+.back-link {
+    display: inline-block;
+    margin-left: 192px; 
+    margin-top: 48px;   
+    text-decoration: none;
+    color: #1E8A71;
+    font-weight: bold;
+    position: relative;
+}
+
+.back-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 15px; 
+    width: 100%;
+    height: 2px;
+    background-color: #1E8A71; 
+    transform: scaleX(0); 
+    transition: transform 0.3s ease-in-out;
+}
+
+.back-link:hover::after {
+    transform: scaleX(1); 
+}
+
+.container {
+    width: 1167px;
+    height: 728px;
+    margin: 0 auto; 
+    margin-top: 48px; 
+    padding: 0 196px; 
+    display: flex;
+    gap: 80px; /* Separación entre los dos div internos */
+}
+
+.left-box {
+    width: 484px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    background-color: #FFFFFF;
+    align-items: center;
+}
+
+.upload-box {
+    width: 400px;
+    height: 400px;
+    border: 2px dashed #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    overflow: hidden;
+    
+    /* Márgenes laterales */
+    margin: 32px 42px 16px; /* Ajustamos el margen inferior */
+}
+
+.upload-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.input-container {
+    width: 420px;
+    height: 248px;
+    margin-top: 16px; 
+    margin-left: 32px; 
+    margin-right: 32px; 
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: flex-start; 
+    gap: 20px; 
+}
+
+
+.input-box {
+    width: 200px;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.input-box p {
+    margin: 0 0 8px 0; /* Agregar margen inferior */
+}
+
+.custom-number {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.custom-input {
+    width: 100%;
+    height: 48px;
+    padding-right: 30px;
+    text-align: right;
+    font-size: 19px;
+    font-family: 'Century Gothic';
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.buttons {
+    position: absolute;
+    right: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.buttons button {
+    width: 13px;
+    height: 16px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.buttons button img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+
+.right-box {
+    width: 576px;
+    height: 100%;
+}
+
+.inner-box {
+    width: 556px;
+    height: 664px;
+    margin-top: 32px;
+    margin-bottom: 32px;
+    margin-left: 10px;
+    margin-right: 10px;
+    box-sizing: border-box;
+}
+
+.custom-select {
+    width: 100%;
+    height: 48px;
+    border: 1px solid #ccc;
+    font-size: 19px;
+    font-family: 'Century Gothic';
+    border-radius: 8px;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+.select-group {
+    width: 100%;
+    margin-top: 40px; /* Separación del select anterior */
+    display: flex;
+    justify-content: space-between; /* Distribuye los selects */
+}
+
+.select-group select {
+    width: 266px;
+    height: 48px;
+}  
+
+.input-personalizado {
+    width: 550px;
+    border-radius: 8px;
+    height: 56px;
+    border: 2px solid #7D7E7C;
+    background-color: rgba(125, 126, 124, 0.1);
+    font-size: 16px;
+    margin-top: 40px;
+    font-size: 19px;
+    font-family: 'Century Gothic';
+    
+}
+
+.input-descripcion {
+    width: 550px;
+    height: 104px; 
+    border-radius: 8px;
+    border: 2px solid #7D7E7C;
+    background-color: rgba(125, 126, 124, 0.1);
+    font-size: 19px;
+    font-family: 'Century Gothic';
+    margin-top: 40px;
+    resize: none; 
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    transform: scale(1.5); /* Aumenta el tamaño del icono */
+    cursor: pointer;
+}
+
+.custom-button {
+    width: 161px;
+    height: 56px;
+    margin-top: 40px;
+    background-color: #FF9D23; /* Ajusta el color según tu diseño */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-left: 197.5px;
+}
+
+/* Diseño del modal */
+.modal-container {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Fondo oscuro semi-transparente */
+    justify-content: center;
+    align-items: center;
+}
+
+/* Caja del modal */
+.modal {
+    width: 584px;
+    height: 360px;
+    background: white;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Contenedor del icono */
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Animación del ícono de check */
+/* Círculo de fondo */
+.checkmark__circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 2;
+    stroke-miterlimit: 10;
+    stroke: #7ac142;
+    fill: none;
+    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+  }
+
+/* Animación para dibujar la palomita */
+.checkmark__check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+  }
+
+/* Tamaño y estilo de la palomita */
+.checkmark {
+    width: 90px; 
+    height: 90px; 
+    border-radius: 50%; /* Esto asegura que sea redondo */
+    display: block;
+    stroke-width: 2;
+    stroke: white;
+    stroke-miterlimit: 10;
+    margin: 10px auto;
+    box-shadow: inset 0px 0px 0px 50px #7ac142; /* El círculo verde de la palomita */
+    animation: fill 0.4s ease-in-out 0.4s forwards, scale 0.3s ease-in-out 0.9s both;
+}
+
+/* Animación para el trazo */
+@keyframes stroke {
+    100% {
+      stroke-dashoffset: 0;
+    }
+  }
+  
+  /* Animación de escala */
+  @keyframes scale {
+    0%, 100% {
+      transform: none;
+    }
+    50% {
+      transform: scale3d(1.1, 1.1, 1);
+    }
+  }
+  
+  @keyframes fill {
+    100% {
+      box-shadow: inset 0px 0px 0px 50px #7ac142; /* Antes estaba en 30px */
+    }
+  }
+
+.modal h4 {
+    margin-top: 10px;
+    font-size: 26px;
+    color: #333;
+}
+
+.close-button {
+    width: 240px;
+    height: 48px;
+    background: #44BB41;
+    border: none;
+    color: white;
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.close-button:hover {
+    background: #CAE0BC;
+}
+
+.cantidad-container {
+    display: none; /* Inicialmente oculto */
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.quantity-input {
+    width: 60px;
+    height: 30px;
+    text-align: center;
+}
+
+.decrement-btn, .increment-btn {
+    width: 30px;
+    height: 30px;
+    border: none;
+    background-color: #ccc;
+    cursor: pointer;
+}
+
+.decrement-btn:hover, .increment-btn:hover {
+    background-color: #bbb;
+}
+
+
