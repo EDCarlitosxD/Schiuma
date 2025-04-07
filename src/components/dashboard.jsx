@@ -160,7 +160,7 @@ function App() {
                         <p>{product.expiration}</p>
                       </td>
                       <td>
-                        <p>{product.category ?? ''}</p>
+                        <p>{product.category ?   product.category.name :'No tiene categoria'}</p>
                       </td>
                       <td>
                         <p>${product.stock}</p>

@@ -11,7 +11,7 @@ function CreateProduct() {
 
     const [backgroundImage, setBackgroundImage] = useState(null);
     const fileInputRef = useRef(null);
-
+    const formRef = useRef();
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -21,6 +21,40 @@ function CreateProduct() {
             setBackgroundImage(reader.result);
           };
           reader.readAsDataURL(file);
+        }
+      };
+    
+
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        
+        try {
+          // 1. Crear FormData desde el formulario
+          const formData = new FormData(formRef.current);
+          
+          // 2. Opcional: Verificar contenido del FormData (para depuración)
+          for (let [key, value] of formData.entries()) {
+            console.log(key, value);
+          }
+          
+          // 3. Hacer la petición fetch
+          const respuesta = await fetch(`${import.meta.env.VITE_API_URL}/product`, {
+            method: 'POST',
+            headers: {
+              'token': localStorage.getItem('token') ?? '',
+              // No establezcas 'Content-Type': fetch lo hará automáticamente con el boundary correcto
+            },
+            body: formData // Enviamos el FormData directamente
+          });
+    
+    
+          const data = await respuesta.json();
+          console.log('Producto creado:', data);
+          alert('Producto creado exitosamente!');
+          
+        } catch (error) {
+          console.error('Error:', error);
+          alert(error.message || 'Error al enviar el formulario');
         }
       };
     
@@ -56,7 +90,7 @@ function CreateProduct() {
                         {" "}
                         <p>{`< Volver a productos`}</p>
                     </Link>
-                    <div className="container">
+                    <form ref={formRef} className="container"  onSubmit={handleSubmit} >
                         <div className="left-box">
                             <div className="upload-box relative">
                                 <img
@@ -151,8 +185,8 @@ function CreateProduct() {
                         </div>
                         <div className="right-box">
                             <div className="inner-box">
-                                <select className="custom-select">
-                                    <option value="pk_category">Selecciona una opción</option>
+                                <select name="fk_category" className="custom-select">
+                                    <option value="null">Selecciona una opción</option>
                                     {
                                         categories.map(category => (
                                             <option key={category.pk_category+category.name}  value={category.pk_category} >HOLA</option>
@@ -181,24 +215,28 @@ function CreateProduct() {
                                     className="input-personalizado"
                                     placeholder="Nombre del producto"
                                     type="text"
+                                    name="name"
                                 />
                                 <input
                                     className="input-descripcion"
                                     placeholder="Descripción"
                                     type="text"
+                                    name="description"
                                 />
                                 <input
                                     className="input-personalizado"
                                     placeholder="Lote"
                                     type="text"
+                                    name="lote"
                                 />
                                 <input
                                     className="input-personalizado"
                                     placeholder="Fecha de lote"
                                     type="date"
+                                    name="expiration"
                                 />
                                 <button className="custom-button">
-                                    <h4>Guardar</h4>
+                                    <input value='Guardar' type="submit" />
                                 </button>
                             </div>
                         </div>
@@ -229,7 +267,7 @@ function CreateProduct() {
                                 </button>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </section>
 
 

@@ -22,4 +22,3 @@ export const fetchDataAuth = async (resource, queryParams = {}) => {
 
     return await respuesta.json();
 }
-
