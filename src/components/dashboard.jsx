@@ -4,10 +4,16 @@
 import { useEffect, useState } from "react"
 import { ContentDashboard } from "./ContentDashboard"
 import { Sidebar } from "./Sidebar"
-import { redirect, useNavigate } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 import { fetchDataAuth } from "../utils/FetchData";
+import { BotonAcciones } from "./BotonAcciones";
+import TokenInvalido from "./TokenInvalido";
+import Contador from "./Contador";
 
 function App() {
+  const [modalToken, setModalToken] = useState(null);
+
+
   const [products, setProducts] = useState([]);
   const [pagination, setPagination] = useState({
     currentPage: 1,
@@ -26,23 +32,49 @@ function App() {
 
   useEffect(() => {
     const getProducts = async () => {
-      const data = await fetchDataAuth('product', filters);
-      setProducts(data.data);
-      setPagination(data.pagination)
-
-      console.log(data);
-      console.log(data.data);
-
-    };
-
-    getProducts();
-  }, [filters]);  // Aquí agregamos `filters` como dependencia
-
-
-
-  const handleChangePage = (e) =>{
-    const page  = e.target.value
+      try {
+        const data = await fetchDataAuth('product', filters);
+        setProducts(data.data);
+        setPagination(data.pagination);
   
+        // Si el backend devuelve un mensaje de token expirado (aunque normalmente esto sería un error 401)
+        if (data.message === 'Token expired') {
+          setModalToken("Tu sesión ha expirado"); // Mostrar modal
+          // Opcional: Forzar logout o refrescar token
+          // localStorage.removeItem("token");
+          // navigate("/login");
+        }
+      } catch (e) {
+        // Verifica si el error viene del backend (e.response.data.message) o es genérico (e.message)
+        const errorMessage = e.response?.data?.message || e.message;
+        setModalToken(errorMessage); // Mostrar el error en el modal
+        
+        // Si es un token expirado/inválido, podrías redirigir al login
+        if (errorMessage.includes("Token") || e.response?.status === 401) {
+          console.log("Token expirado o inválido");
+          // localStorage.removeItem("token");
+          // navigate("/login");
+        }
+      }
+    };
+  
+    getProducts();
+  }, [filters]);
+
+
+  if (modalToken) {
+
+    console.log("MENSAJE MODAL" + modalToken);
+    
+    if(modalToken === "Tu sesión ha expirado") return <Contador></Contador>
+
+    return <TokenInvalido msg={modalToken} />;
+  }
+
+
+  const handleChangePage = (e) => {
+    const page = e.target.value
+
     setFilters({
       ...setFilters,
       page: page
@@ -51,15 +83,15 @@ function App() {
   }
 
 
-  const handlerNavegationSearchNav = (e) =>{
-      console.log(e.target);
+  const handlerNavegationSearchNav = (e) => {
+    console.log(e.target);
 
-      setFilters({
-        ...filters,
-        page: 0,
-        name: e.target.value
-      })
-    
+    setFilters({
+      ...filters,
+      page: 0,
+      name: e.target.value
+    })
+
   }
 
 
@@ -104,12 +136,12 @@ function App() {
                   <img alt="Filtro" src="icons/Filtro.svg" />
                   <h4>Filtrar</h4>
                 </button>
-                <a className="link-agregar" href="pages/añadir-productos.html">
+                <Link className="link-agregar" to='/crear-producto'>
                   <button className="btn-agregar">
                     <img alt="Agregar producto" src="icons/Añadir.svg" />
                     <h4>Agregar producto</h4>
                   </button>
-                </a>
+                </Link>
               </div>
             </div>
             <table className="tabla-inventario">
@@ -148,7 +180,7 @@ function App() {
               <tbody>
                 {
                   products.map(product => (
-                    <tr>
+                    <tr key={product.pk_product}>
                       <td>
                         <img alt="Producto" src={product.image} />
                       </td>
@@ -160,7 +192,7 @@ function App() {
                         <p>{product.expiration}</p>
                       </td>
                       <td>
-                        <p>{product.category ?   product.category.name :'No tiene categoria'}</p>
+                        <p>{product.category ? product.category.name : 'No tiene categoria'}</p>
                       </td>
                       <td>
                         <p>${product.stock}</p>
@@ -174,32 +206,8 @@ function App() {
                       <td className="estado">
                         <span className={product.status ? 'estado-activo' : ''}>Activo</span>
                       </td>
-                      <td className="contenedor-acciones">
-                        <button className="btn-acciones">
-                          <img alt="Acciones" src="images/img/Trespuntos.png" />
-                        </button>
-                        <div className="opciones">
-                          <img
-                            alt="Añadir"
-                            className="abrir-cantidad"
-                            src="icons/Añadir-hover.svg"
-                          />
-                          <img
-                            alt="Editar"
-                            className="abrir-cantidad"
-                            src="images/img/Editar.png"
-                          />
-                          <img alt="Eliminar" src="images/img/Eliminar.png" />
-                        </div>
-                        <div className="cantidad-container">
-                          <button className="decrement-btn">-</button>
-                          <input
-                            className="cantidad-input"
-                            defaultValue="1"
-                            type="number"
-                          />
-                          <button className="increment-btn">+</button>
-                        </div>
+                      <td >
+                        <BotonAcciones id={product.pk_product}  ></BotonAcciones>
                       </td>
                     </tr>
 

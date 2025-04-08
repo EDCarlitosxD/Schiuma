@@ -1,3 +1,5 @@
+import TokenInvalido from "../components/TokenInvalido";
+
 export const fetchData = async (resource) => {
     const respuesta = await fetch(`${import.meta.env.VITE_API_URL}/${resource}`)
 
@@ -9,6 +11,15 @@ export const fetchData = async (resource) => {
 
 export const fetchDataAuth = async (resource, queryParams = {}) => {
     // Convertir queryParams a string de URL
+
+    const token = localStorage.getItem("token"); // Obtiene el token del localStorage
+  
+    if (!token) {
+        throw new Error("No haz hecho Login");
+    }
+
+
+
     const queryString = new URLSearchParams(queryParams).toString();
     
     // Construir URL completa

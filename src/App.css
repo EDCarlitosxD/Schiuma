@@ -542,6 +542,7 @@ td.estado {
     position: absolute;
     top: 60%; 
     left: 50%;
+    width: 100%;
     transform: translateX(-50%);
     background: white;
     border: 1px solid #ccc;
