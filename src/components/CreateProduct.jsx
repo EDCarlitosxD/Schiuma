@@ -1,13 +1,16 @@
 import { useEffect, useRef, useState } from "react";
-import { fetchData } from "../utils/FetchData";
+import { fetchData, fetchDataAuth } from "../utils/FetchData";
 import { Sidebar } from "./Sidebar";
 import { ContentDashboard } from "./ContentDashboard";
 import { Link } from "react-router-dom";
+import Contador from "./Contador";
+import TokenInvalido from "./TokenInvalido";
 
 
 function CreateProduct() {
     const [providers, setProviders] = useState([]);
     const [categories, setCategories] = useState([]);
+    const [modalToken, setModalToken] = useState(null)
 
     const [backgroundImage, setBackgroundImage] = useState(null);
     const fileInputRef = useRef(null);
@@ -16,68 +19,101 @@ function CreateProduct() {
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            setBackgroundImage(reader.result);
-          };
-          reader.readAsDataURL(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setBackgroundImage(reader.result);
+            };
+            reader.readAsDataURL(file);
         }
-      };
-    
+    };
 
-      const handleSubmit = async (e) => {
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         try {
-          // 1. Crear FormData desde el formulario
-          const formData = new FormData(formRef.current);
-          
-          // 2. Opcional: Verificar contenido del FormData (para depuración)
-          for (let [key, value] of formData.entries()) {
-            console.log(key, value);
-          }
-          
-          // 3. Hacer la petición fetch
-          const respuesta = await fetch(`${import.meta.env.VITE_API_URL}/product`, {
-            method: 'POST',
-            headers: {
-              'token': localStorage.getItem('token') ?? '',
-              // No establezcas 'Content-Type': fetch lo hará automáticamente con el boundary correcto
-            },
-            body: formData // Enviamos el FormData directamente
-          });
-    
-    
-          const data = await respuesta.json();
-          console.log('Producto creado:', data);
-          alert('Producto creado exitosamente!');
-          
+            // 1. Crear FormData desde el formulario
+            const formData = new FormData(formRef.current);
+
+            // 2. Opcional: Verificar contenido del FormData (para depuración)
+            for (let [key, value] of formData.entries()) {
+                console.log(key, value);
+            }
+
+            // 3. Hacer la petición fetch
+            const respuesta = await fetch(`${import.meta.env.VITE_API_URL}/product`, {
+                method: 'POST',
+                headers: {
+                    'token': localStorage.getItem('token') ?? '',
+                    // No establezcas 'Content-Type': fetch lo hará automáticamente con el boundary correcto
+                },
+                body: formData // Enviamos el FormData directamente
+            });
+
+
+            const data = await respuesta.json();
+            console.log('Producto creado:', data);
+            alert('Producto creado exitosamente!');
+
         } catch (error) {
-          console.error('Error:', error);
-          alert(error.message || 'Error al enviar el formulario');
+            console.error('Error:', error);
+            alert(error.message || 'Error al enviar el formulario');
         }
-      };
-    
+    };
+
 
 
     useEffect(() => {
         const getData = async () => {
-            const providers = await fetchData('provider');
-            console.log(providers);
+
+            try {
+                const providers = await fetchDataAuth('provider');
+                console.log(providers);
 
 
-            const categories = await fetchData('category');
+                const categories = await fetchData('category');
 
 
-            setProviders(providers);
-            setCategories(categories);
-            
+                setProviders(providers);
+                setCategories(categories);
+
+
+                if (providers.message === 'Token expired') {
+                    setModalToken("Tu sesión ha expirado"); // Mostrar modal
+                    // Opcional: Forzar logout o refrescar token
+                    // localStorage.removeItem("token");
+                    // navigate("/login");
+
+                } else if (providers.message === "Token is required") {
+                    setModalToken("Token invalido")
+                }
+                
+            } catch (e) {
+
+                // Verifica si el error viene del backend (e.response.data.message) o es genérico (e.message)
+                const errorMessage = e.response?.data?.message || e.message;
+                setModalToken(errorMessage); // Mostrar el error en el modal
+
+            }
+
+
 
 
         };
 
         getData();
     }, []);
+
+
+
+    if (modalToken) {
+
+        console.log("MENSAJE MODAL" + modalToken);
+
+        if (modalToken === "Tu sesión ha expirado") return <Contador></Contador>
+        localStorage.removeItem('token')
+        return <TokenInvalido msg={modalToken} />;
+    }
 
     return (
         <div className="container-app">
@@ -90,7 +126,7 @@ function CreateProduct() {
                         {" "}
                         <p>{`< Volver a productos`}</p>
                     </Link>
-                    <form ref={formRef} className="container"  onSubmit={handleSubmit} >
+                    <form ref={formRef} className="container" onSubmit={handleSubmit} >
                         <div className="left-box">
                             <div className="upload-box relative">
                                 <img
@@ -98,7 +134,7 @@ function CreateProduct() {
                                     id="preview-image"
                                     src={backgroundImage || "../images/img/Subir-Imagen.png"}
                                 />
-                                <input ref={fileInputRef} onChange={handleImageChange} name="image" className="w-[396px] h-[396px] absolute top-0 bottom-0 left-0 right-0 opacity-0" placeholder="" accept="image/*"  id="image-upload" type="file" />
+                                <input ref={fileInputRef} onChange={handleImageChange} name="image" className="w-[396px] h-[396px] absolute top-0 bottom-0 left-0 right-0 opacity-0" placeholder="" accept="image/*" id="image-upload" type="file" />
                             </div>
                             <div className="input-container">
                                 <div className="input-box">
@@ -189,8 +225,8 @@ function CreateProduct() {
                                     <option value="null">Selecciona una opción</option>
                                     {
                                         categories.map(category => (
-                                            <option key={category.pk_category+category.name}  value={category.pk_category} >HOLA</option>
-                                           
+                                            <option key={category.pk_category + category.name} value={category.pk_category} >HOLA</option>
+
                                         ))
                                     }
 
@@ -205,7 +241,7 @@ function CreateProduct() {
                                         <option value="">Selecciona una opción</option>
                                         {
                                             providers.map(provider => (
-                                            <option key={provider.pk_provier+provider.user.name}  value={provider.pk_provider} >{provider.user.name}</option>
+                                                <option key={provider.pk_provier + provider.user.name} value={provider.pk_provider} >{provider.user.name}</option>
 
                                             ))
                                         }
@@ -272,7 +308,7 @@ function CreateProduct() {
 
 
             </ContentDashboard>
- 
+
 
         </div>
 

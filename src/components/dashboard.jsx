@@ -36,28 +36,26 @@ function App() {
         const data = await fetchDataAuth('product', filters);
         setProducts(data.data);
         setPagination(data.pagination);
-  
-        // Si el backend devuelve un mensaje de token expirado (aunque normalmente esto sería un error 401)
+
         if (data.message === 'Token expired') {
           setModalToken("Tu sesión ha expirado"); // Mostrar modal
           // Opcional: Forzar logout o refrescar token
           // localStorage.removeItem("token");
           // navigate("/login");
+
+        } else if (data.message === "Token is required") {
+          setModalToken("Token invalido")
         }
+       
       } catch (e) {
         // Verifica si el error viene del backend (e.response.data.message) o es genérico (e.message)
         const errorMessage = e.response?.data?.message || e.message;
         setModalToken(errorMessage); // Mostrar el error en el modal
-        
-        // Si es un token expirado/inválido, podrías redirigir al login
-        if (errorMessage.includes("Token") || e.response?.status === 401) {
-          console.log("Token expirado o inválido");
-          // localStorage.removeItem("token");
-          // navigate("/login");
-        }
+
+
       }
     };
-  
+
     getProducts();
   }, [filters]);
 
@@ -65,8 +63,8 @@ function App() {
   if (modalToken) {
 
     console.log("MENSAJE MODAL" + modalToken);
-    
-    if(modalToken === "Tu sesión ha expirado") return <Contador></Contador>
+
+    if (modalToken === "Tu sesión ha expirado") return <Contador></Contador>
 
     return <TokenInvalido msg={modalToken} />;
   }

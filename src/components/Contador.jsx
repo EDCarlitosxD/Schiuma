@@ -13,6 +13,7 @@ function Contador() {
         setCountdown(countdown - 1);
       }, 1000);
     }else{
+      localStorage.removeItem('token')
       navigate('/'); 
     }
     
@@ -27,7 +28,7 @@ function Contador() {
 
   return (
     <>
-      <div data-layer="Delete product alert" className="w-[584px] h-[360px] border-2 border-neutral-900 p-2 bg-white rounded-2xl inline-flex flex-col justify-between items-center overflow-hidden">
+      <div data-layer="Delete product alert" className="absolute top-0 left-0 right-0 bottom-0 m-auto w-[584px] h-[360px] border-2 border-neutral-900 p-2 bg-white rounded-2xl inline-flex flex-col justify-between items-center overflow-hidden">
         <div data-layer="Frame 91" className="self-stretch flex-1 flex flex-col justify-start items-start">
           <div data-layer="Type" className="self-stretch flex flex-col justify-start items-center">
             <img data-layer="Animation - 1740434375890 (1) 1" className="w-[200px] h-[200px]" src="/src/assets/advertencia.gif" />
@@ -35,7 +36,7 @@ function Contador() {
           </div>
           <div data-layer="Information" className="self-stretch flex-1 p-2.5 inline-flex justify-center items-center gap-2.5 overflow-hidden">
             <div data-layer="Usted esta por eliminar un producto, ¿desea continuar?" className="text-center justify-start text-black text-base font-normal font-['Century_Gothic']">
-              Su sesión está por expirar en {countdown} {countdown === 1 ? 'segundo' : 'segundos'}
+              Su a expirado, redireccionando al login en {countdown} {countdown === 1 ? 'segundo' : 'segundos'}
             </div>
           </div>
         </div>
