@@ -195,10 +195,10 @@ function App() {
                         <p>{product.category ? product.category.name : 'No tiene categoria'}</p>
                       </td>
                       <td>
-                        <p>${product.stock}</p>
+                        <p>${product.price}</p>
                       </td>
                       <td>
-                        <p>{product.price}</p>
+                        <p>{product.stock}</p>
                       </td>
                       <td>
                         <p>${product.sale_price}</p>

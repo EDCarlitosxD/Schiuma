@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 export const Sidebar = () => {
     
@@ -18,32 +19,32 @@ export const Sidebar = () => {
                 <nav>
                     <ul>
                         <li className="active">
-                            <a href="#productos">
+                            <Link to='/dashboard' href="#productos">
                                 <img className="icon-default" src="/icons/products.svg" alt="Productos" />
                                 <img className="icon-hover" src="/icons/products-hover.svg" alt="Productos" />
                                 Productos
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a href="#clientes">
+                            <Link to='/clientes' href="#clientes">
                                 <img className="icon-default" src="/icons/cliente.svg" alt="Clientes" />
                                 <img className="icon-hover" src="/icons/products-hover.svg" alt="Clientes" />
                                 Clientes
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a href="#proveedores">
+                            <Link to='/provedores' href="#proveedores">
                                 <img className="icon-default" src="/icons/proveedores.svg" alt="Proveedores" />
                                 <img className="icon-hover" src="/icons/products-hover.svg" alt="Proveedores" />
                                 Proveedores
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a href="#ventas">
+                            <Link to='/ventas' href="#ventas">
                                 <img className="icon-default" src="/icons/ventas.svg" alt="Ventas" />
                                 <img className="icon-hover" src="/icons/ventas-hover.svg" alt="Ventas" />
                                 Ventas
-                            </a>
+                            </Link>
                         </li>
                         <li>
                             <a href="#reportes">

@@ -1,13 +1,18 @@
 import { useEffect, useRef, useState } from "react";
-import { fetchData } from "../utils/FetchData";
+import { fetchData, fetchDataAuth } from "../utils/FetchData";
 import { Sidebar } from "./Sidebar";
 import { ContentDashboard } from "./ContentDashboard";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 
 function EditarProducto() {
+    const {id} = useParams();
     const [providers, setProviders] = useState([]);
     const [categories, setCategories] = useState([]);
+    const [producto, setProducto] = useState({
+        name: '',
+        stock: 0
+    });
 
     const [backgroundImage, setBackgroundImage] = useState(null);
     const fileInputRef = useRef(null);
@@ -38,8 +43,8 @@ function EditarProducto() {
           }
           
           // 3. Hacer la petición fetch
-          const respuesta = await fetch(`${import.meta.env.VITE_API_URL}/product`, {
-            method: 'POST',
+          const respuesta = await fetch(`${import.meta.env.VITE_API_URL}/product/${id}`, {
+            method: 'PUT',
             headers: {
               'token': localStorage.getItem('token') ?? '',
               // No establezcas 'Content-Type': fetch lo hará automáticamente con el boundary correcto
@@ -67,10 +72,17 @@ function EditarProducto() {
 
 
             const categories = await fetchData('category');
-
+            const productoSave = await fetchDataAuth('product/'+id)
 
             setProviders(providers);
             setCategories(categories);
+
+            console.log(productoSave);
+            
+            setProducto({
+                ...productoSave,
+                expiration: productoSave.expiration.split('T')[0]
+              });
             
 
 
@@ -82,7 +94,7 @@ function EditarProducto() {
     return (
         <div className="container-app">
             <Sidebar></Sidebar>
-            <ContentDashboard busqueda={false} nombre="Agregar Productos.ㅤㅤㅤㅤㅤㅤㅤ">
+            <ContentDashboard busqueda={false} nombre="Editar Productos.ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ">
 
 
                 <section className="main-section">
@@ -96,7 +108,7 @@ function EditarProducto() {
                                 <img
                                     alt="Subir imagen"
                                     id="preview-image"
-                                    src={backgroundImage || "../images/img/Subir-Imagen.png"}
+                                    src={backgroundImage ? backgroundImage : producto.image}
                                 />
                                 <input ref={fileInputRef} onChange={handleImageChange} name="image" className="w-[396px] h-[396px] absolute top-0 bottom-0 left-0 right-0 opacity-0" placeholder="" accept="image/*"  id="image-upload" type="file" />
                             </div>
@@ -106,10 +118,11 @@ function EditarProducto() {
                                     <div className="custom-number">
                                         <input
                                             className="custom-input"
-                                            defaultValue="0"
+                                            value={producto.stock}
                                             min="0"
                                             name="stock"
                                             type="number"
+                                            onChange={(e) => setProducto({ ...producto, stock: e.target.value })}
                                         />
                                         <div className="buttons">
                                             <button className="btn-up" onclick="increment(this)">
@@ -126,10 +139,11 @@ function EditarProducto() {
                                     <div className="custom-number">
                                         <input
                                             className="custom-input"
-                                            defaultValue="0"
+                                            value={producto.min_stock}
                                             name="min_stock"
                                             min="0"
                                             type="number"
+                                            onChange={(e) => setProducto({ ...producto, min_stock: e.target.value })}
                                         />
                                         <div className="buttons">
                                             <button className="btn-up" onclick="increment(this)">
@@ -146,10 +160,11 @@ function EditarProducto() {
                                     <div className="custom-number">
                                         <input
                                             className="custom-input"
-                                            defaultValue="0"
+                                            value={producto.price}
                                             min="0"
                                             name="price"
                                             type="number"
+                                            onChange={(e) => setProducto({ ...producto, price: e.target.value })}
                                         />
                                         <div className="buttons">
                                             <button className="btn-up" onclick="increment(this)">
@@ -166,10 +181,11 @@ function EditarProducto() {
                                     <div className="custom-number">
                                         <input
                                             className="custom-input"
-                                            defaultValue="0"
+                                            value={producto.sale_price}
                                             min="0"
                                             name="sale_price"
                                             type="number"
+                                            onChange={(e) => setProducto({ ...producto, sale_price: e.target.value })}
                                         />
                                         <div className="buttons">
                                             <button className="btn-up" onclick="increment(this)">
@@ -189,7 +205,7 @@ function EditarProducto() {
                                     <option value="null">Selecciona una opción</option>
                                     {
                                         categories.map(category => (
-                                            <option key={category.pk_category+category.name}  value={category.pk_category} >HOLA</option>
+                                            <option selected={category.pk_category === producto.fk_category} key={category.pk_category+category.name}  value={category.pk_category} >HOLA</option>
                                            
                                         ))
                                     }
@@ -198,14 +214,14 @@ function EditarProducto() {
                                 <div className="select-group">
                                     <select className="custom-select">
                                         <option value="">Selecciona una opción</option>
-                                        <option value="0">Activo</option>
-                                        <option value="1">Inactivo</option>
+                                        <option selected={producto.status} value="0">Activo</option>
+                                        <option selected={!producto.status} value="1">Inactivo</option>
                                     </select>
                                     <select name="fk_provider" className="custom-select">
                                         <option value="">Selecciona una opción</option>
                                         {
                                             providers.map(provider => (
-                                            <option key={provider.pk_provier+provider.user.name}  value={provider.pk_provider} >{provider.user.name}</option>
+                                            <option selected={provider.pk_provider === producto.fk_provider} key={provider.pk_provider+provider.user.name}  value={provider.pk_provider} >{provider.user.name}</option>
 
                                             ))
                                         }
@@ -216,24 +232,32 @@ function EditarProducto() {
                                     placeholder="Nombre del producto"
                                     type="text"
                                     name="name"
+                                    value={producto.name}
+                                    onChange={(e) => setProducto({ ...producto, name: e.target.value })}
                                 />
                                 <input
                                     className="input-descripcion"
                                     placeholder="Descripción"
                                     type="text"
                                     name="description"
+                                    value={producto.description}
+                                    onChange={(e) => setProducto({ ...producto, description: e.target.value })}
                                 />
                                 <input
                                     className="input-personalizado"
                                     placeholder="Lote"
                                     type="text"
                                     name="lote"
+                                    value={producto.lote}
+                                    onChange={(e) => setProducto({ ...producto, lote: e.target.value })}
                                 />
                                 <input
                                     className="input-personalizado"
                                     placeholder="Fecha de lote"
                                     type="date"
                                     name="expiration"
+                                    value={producto.expiration}
+                                    onChange={(e) => setProducto({ ...producto, expiration: e.target.value })}
                                 />
                                 <button className="custom-button">
                                     <input value='Guardar' type="submit" />
